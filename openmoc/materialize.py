@@ -41,7 +41,10 @@ def _get_domain(domains, domain_spec):
 def _get_numpy_array(hdf5_group, key, suffix):
     """A helper routine to ensure that MGXS data is a proper NumPy array"""
 
-    sigma = np.array(hdf5_group['{}/'.format(key) + suffix][...])
+    try:
+        sigma = np.array(hdf5_group['{}/'.format(key) + suffix][...])
+    except:
+        sigma = np.array(hdf5_group['{}/'.format(key) + suffix]['average'])
     sigma = np.atleast_1d(sigma)
     sigma = sigma.flatten()
     return sigma
